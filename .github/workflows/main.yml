@@ -53,7 +53,9 @@ jobs:
 
     - name: Bundle Plugin (Linux/macOS)
       if: matrix.os != 'windows-latest'
-      run: cargo xtask bundle antigravity_designer --profile release
+      run: |
+        cargo xtask bundle antigravity_designer --profile release
+        cargo build --release --bin antigravity_standalone
 
     - name: Build Installer (Windows)
       if: matrix.os == 'windows-latest'
@@ -66,3 +68,5 @@ jobs:
         path: |
           target/bundled/*
           target/installer/*.exe
+          target/release/antigravity_standalone
+          target/release/antigravity_standalone.app

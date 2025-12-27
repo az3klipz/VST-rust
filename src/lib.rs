@@ -24,6 +24,9 @@ pub struct AntigravityParams {
 
     #[id = "oversample"]
     pub oversample_mode: EnumParam<OversampleMode>,
+
+    #[id = "gpu_enabled"]
+    pub gpu_enabled: BoolParam,
 }
 
 #[derive(Enum, PartialEq, Clone, Copy)]
@@ -59,6 +62,7 @@ impl Default for AntigravityParams {
                 FloatRange::Linear { min: -12.0, max: 12.0 },
             ).with_unit("dB"),
             oversample_mode: EnumParam::new("Oversampling", OversampleMode::Off),
+            gpu_enabled: BoolParam::new("GPU Acceleration", true),
         }
     }
 }

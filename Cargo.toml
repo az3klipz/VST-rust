@@ -14,7 +14,7 @@ crate-type = ["cdylib", "lib"]
 
 [dependencies]
 # Plugin Framework
-nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs"] }
+nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs", "standalone"] }
 nih_plug_egui = { git = "https://github.com/robbert-vdh/nih-plug.git" }
 
 # DSP & Math
@@ -44,3 +44,6 @@ codegen-units = 1
 inherits = "release"
 debug = true
 strip = false
+[[bin]]
+name = "antigravity_standalone"
+path = "src/main.rs"

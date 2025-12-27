@@ -13,12 +13,19 @@ fn main() {
 }
 
 fn run_bundle() {
-    println!("Step 1: Bundling Plugin...");
+    println!("Step 1.1: Bundling Plugin...");
     let status = Command::new("cargo")
         .args(&["xtask", "bundle", "antigravity_designer", "--release"])
         .status()
         .expect("Failed to run bundle");
     assert!(status.success());
+
+    println!("Step 1.2: Building Standalone Executable...");
+    let status_bin = Command::new("cargo")
+        .args(&["build", "--release", "--bin", "antigravity_standalone"])
+        .status()
+        .expect("Failed to build standalone");
+    assert!(status_bin.success());
 }
 
 fn build_installer() {

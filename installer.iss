@@ -18,8 +18,11 @@ DisableProgramGroupPage=yes
 Source: ".\target\bundled\antigravity_designer.vst3\*"; DestDir: "{commoncf}\VST3\Antigravity_Designer.vst3"; Flags: ignoreversion recursesubdirs
 ; CLAP Binary
 Source: ".\target\bundled\antigravity_designer.clap"; DestDir: "{commoncf}\CLAP"; Flags: ignoreversion
+; Standalone App
+Source: ".\target\release\antigravity_standalone.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
+Name: "{group}\Antigravity Designer"; Filename: "{app}\antigravity_standalone.exe"
 Name: "{group}\Uninstall Antigravity Designer"; Filename: "{unsellexe}"
 
 [Run]

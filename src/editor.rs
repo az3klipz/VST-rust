@@ -74,6 +74,13 @@ pub fn create_antigravity_editor(params: Arc<AntigravityParams>) -> Option<Box<d
                     ui.horizontal(|ui| {
                          ui.label("Cloud Sync: ");
                          ui.colored_label(egui::Color32::RED, "OFFLINE");
+                         
+                         ui.add_space(20.0);
+                         ui.separator();
+                         ui.add_space(20.0);
+
+                         ui.label("GPU Acceleration:");
+                         ui.add(nih_plug_egui::widgets::ParamBoolean::for_param(&params.gpu_enabled, setter));
                     });
                 });
             });

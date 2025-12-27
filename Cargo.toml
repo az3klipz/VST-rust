@@ -1,0 +1,46 @@
+[package]
+name = "antigravity_designer"
+version = "0.1.0"
+edition = "2021"
+authors = ["Antigravity AI"]
+license = "GPL-3.0-or-later"
+description = "A hybrid VST/CLAP plugin framework by Antigravity AI"
+
+[workspace]
+members = [".", "xtask"]
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+# Plugin Framework
+nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs"] }
+nih_plug_egui = { git = "https://github.com/robbert-vdh/nih-plug.git" }
+
+# DSP & Math
+atomic_float = "0.1"
+# std::simd is unstable, requires nightly. We'll stick to a stable approach or assume nightly is used.
+
+# UI
+egui = "0.26"
+egui_plot = "0.26"
+
+# Networking & Async
+tokio = { version = "1.0", features = ["full"] }
+reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Lazy static for global state if needed
+once_cell = "1.18"
+
+[profile.release]
+lto = "thin"
+strip = true
+opt-level = 3
+codegen-units = 1
+
+[profile.profiling]
+inherits = "release"
+debug = true
+strip = false

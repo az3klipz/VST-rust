@@ -1,0 +1,68 @@
+name: Antigravity CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: macos-latest
+            target: x86_64-apple-darwin
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+        targets: ${{ matrix.target }}
+
+    - name: Install Dependencies (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libasound2-dev libgl1-mesa-dev libx11-dev libxrandr-dev libxi-dev libxcursor-dev libxinerama-dev libxcb-shape0-dev libxcb-xfixes0-dev
+
+    - name: Install cargo-xtask
+      run: cargo install cargo-xtask || echo "xtask provided in generic way usually"
+
+    - name: Install Inno Setup (Windows)
+      if: matrix.os == 'windows-latest'
+      run: choco install innosetup
+
+    - name: Build
+      run: cargo build --release --verbose
+
+    - name: Test
+      run: cargo test --release --verbose
+
+    - name: Bundle Plugin (Linux/macOS)
+      if: matrix.os != 'windows-latest'
+      run: cargo xtask bundle antigravity_designer --profile release
+
+    - name: Build Installer (Windows)
+      if: matrix.os == 'windows-latest'
+      run: cargo xtask installer
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: antigravity-plugin-${{ matrix.os }}
+        path: |
+          target/bundled/*
+          target/installer/*.exe

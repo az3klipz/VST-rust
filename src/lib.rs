@@ -12,6 +12,7 @@ use editor::AntigravityEditor;
 pub struct AntigravityHybrid {
     params: Arc<AntigravityParams>,
     saturation: Saturation,
+    cloud_client: cloud::CloudClient,
 }
 
 #[derive(Params)]
@@ -44,6 +45,7 @@ impl Default for AntigravityHybrid {
         Self {
             params: Arc::new(AntigravityParams::default()),
             saturation: Saturation::default(),
+            cloud_client: cloud::CloudClient::new(),
         }
     }
 }

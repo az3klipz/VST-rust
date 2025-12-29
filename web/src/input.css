@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #0f0f14;
+  color: #ffffff;
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(0, 255, 200, 0.5);
+}
+
+.knob-gradient {
+  background: radial-gradient(circle at center, #2a2a30 0%, #15151a 100%);
+}

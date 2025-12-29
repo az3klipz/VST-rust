@@ -18,3 +18,4 @@ Thumbs.db
 
 # Antigravity artifacts
 .gemini/
+node_modules/
